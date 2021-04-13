@@ -106,3 +106,6 @@ int EMSCRIPTEN_KEEPALIVE OrtRun(ort_session_handle_t session,
                                 size_t output_count,
                                 ort_tensor_handle_t* outputs);
 };
+
+// void EMSCRIPTEN_KEEPALIVE OrtStartProfiling(Ort::Session* session);
+// std::string EMSCRIPTEN_KEEPALIVE OrtEndProfiling();

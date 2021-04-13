@@ -24,6 +24,7 @@ Ort::Session* OrtCreateSession(void* data, size_t data_length) {
 
   // disable thread pool for now since not all major browsers support WebAssembly threading.
   session_options.SetIntraOpNumThreads(1);
+  session_options.EnableProfiling("profile_prefix");
 
   return new Ort::Session(*g_env, data, data_length, session_options);
 }
@@ -103,5 +104,31 @@ int OrtRun(Ort::Session* session,
               << std::endl;
     Ort::GetApi().ReleaseStatus(status);
   }
+  FILE *file = fopen("dist/hello_world_file.txt", "rb");
+  if (!file) {
+    printf("cannot open file\n");
+    return error_code;
+    // return 1;
+  }
+  while (!feof(file)) {
+    char c = fgetc(file);
+    if (c != EOF) {
+      putchar(c);
+    }
+  }
+  fclose (file);
+  // return 0;
   return error_code;
 }
+
+// void OrtStartProfiling(Ort::Session* session) {
+//   Ort::Session().StartProfiling(*session, Ort::Session.GetLogger(*session));
+//   // session->StartProfiling(session->GetLogger());
+// }
+
+// std::string OrtEndProfiling() {
+//   return Ort::Session.EndProfiling();
+//   // return session->EndProfiling();
+// } 
+    // Ort::AllocatorWithDefaultOptions allocator;
+    // session->EndProfiling(allocator);
